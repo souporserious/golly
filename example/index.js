@@ -1,70 +1,80 @@
 import React, { Component, createElement } from 'react'
 import ReactDOM, { render } from 'react-dom'
-import { Row, Column } from '../src/index'
+import { css } from 'glamor'
+import { Grid, Cell } from '../src/index'
 import styledElements from 'create-styled-element/lib/styled-elements'
 
 const { Div } = styledElements
 
+css.global('body', {
+  padding: 0,
+  margin: 0,
+})
+
 class App extends Component {
   render() {
     return (
-      <Row columns={12} gutter={8} css={{ backgroundColor: 'pink' }}>
-        <Column size={6} order={2} css={{ backgroundColor: 'red' }}>
+      <Grid columns={12} margin={8} gutter={8}>
+        <Cell size={6} css={{ backgroundColor: 'red' }}>
           Col 6
-        </Column>
-        <Column size={6} css={{ backgroundColor: 'orange' }}>
+        </Cell>
+        <Cell size={7} css={{ backgroundColor: 'orange' }}>
+          Col 7
+        </Cell>
+
+        <Cell size={4} css={{ backgroundColor: 'red' }}>
+          Col 4
+        </Cell>
+        <Cell size={4} css={{ backgroundColor: 'orange' }}>
+          Col 4
+        </Cell>
+        <Cell size={4} css={{ backgroundColor: 'green' }}>
+          Col 4
+        </Cell>
+
+        <Cell
+          size={3}
+          css={{
+            backgroundColor: 'red',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        >
+          Col 3
+        </Cell>
+
+        <Cell size={12} css={{ backgroundColor: 'brown' }}>
+          Col 12
+        </Cell>
+
+        <Cell size={12} css={{ backgroundColor: 'orange' }}>
+          Col 12
+        </Cell>
+        <Cell size={9} css={{ backgroundColor: 'green' }}>
+          Col 9
+        </Cell>
+
+        <Cell size={12} css={{ backgroundColor: 'blue' }}>
+          Col 12
+        </Cell>
+
+        <Cell size={3} css={{ backgroundColor: 'brown' }}>
+          Col 3
+        </Cell>
+        <Cell size={6} css={{ backgroundColor: 'brown' }}>
           Col 6
-        </Column>
+        </Cell>
+        <Cell size={2} css={{ backgroundColor: 'aqua' }}>
+          Col 2
+        </Cell>
 
-        <Column size={4} css={{ backgroundColor: 'red' }}>
+        <Cell size={4} css={{ backgroundColor: 'lime' }}>
           Col 4
-        </Column>
-        <Column size={4} order={1} css={{ backgroundColor: 'orange' }}>
+        </Cell>
+        <Cell size={4} css={{ backgroundColor: 'lime' }}>
           Col 4
-        </Column>
-        <Column size={4} css={{ backgroundColor: 'green' }}>
-          Col 4
-        </Column>
-
-        <Column size={3} css={{ backgroundColor: 'red' }}>
-          Col 3
-        </Column>
-        <Column size={3} css={{ backgroundColor: 'orange' }}>
-          Col 3
-        </Column>
-        <Column size={4} css={{ backgroundColor: 'green' }}>
-          Col 4
-        </Column>
-        <Column size={3} css={{ backgroundColor: 'lime' }}>
-          Col 3
-        </Column>
-      </Row>
-    )
-    return (
-      <div>
-        <Row columns={12} alignItems="center">
-          <Column size={3}>
-            <Div css={{ height: 50, backgroundColor: 'red' }}>
-              Col 1
-            </Div>
-          </Column>
-          <Column size={3}>
-            <Div css={{ height: 100, backgroundColor: 'orange' }}>
-              Col 2
-            </Div>
-          </Column>
-          <Column size={6}>
-            <Div css={{ height: 75, backgroundColor: 'purple' }}>
-              Col 3
-            </Div>
-          </Column>
-          <Column size={6}>
-            <Div css={{ height: 25, backgroundColor: 'lime' }}>
-              Col 4
-            </Div>
-          </Column>
-        </Row>
-      </div>
+        </Cell>
+      </Grid>
     )
   }
 }
