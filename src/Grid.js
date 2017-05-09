@@ -21,7 +21,7 @@ class Grid extends Component {
   }
 
   getRows() {
-    const { columns, gutterX, gutterY, children } = this.props
+    const { columns, gutterX, gutterY, direction, wrap, children } = this.props
     const getColumnSize = size => size / columns * 100 + '%'
     const childrenArray = Children.toArray(children)
     const childrenCount = Children.count(children)
@@ -68,25 +68,34 @@ class Grid extends Component {
           const { size, offset } = column.props
           const columnSize = getColumnSize(size)
           const offsetSize = getColumnSize(offset)
-          const gutterCount = row.length
-          const columnProps = {
+          const gutterCount = row.length - 1
+          const cellProps = {
             columnSize: `calc(${columnSize} - ${gutterX * gutterCount / row.length}px)`,
-            // offsetSize,
+            // columnSize,
+            offsetSize,
           }
 
-          // if (columnIndex !== 0) {
-          columnProps.marginLeft = gutterX / 2
-          // }
-
-          // if (columnIndex !== row.length - 1) {
-          columnProps.marginRight = gutterX / 2
-          // }
-
-          if (rowIndex !== rows.length - 1) {
-            columnProps.marginBottom = gutterY
+          if (direction === 'row-reverse') {
+            if (columnIndex !== 0) {
+              cellProps.marginRight = gutterX
+            }
+          } else {
+            if (columnIndex !== row.length - 1) {
+              cellProps.marginRight = gutterX
+            }
           }
 
-          return cloneElement(column, columnProps)
+          if (wrap === 'reverse') {
+            if (rowIndex !== 0) {
+              cellProps.marginBottom = gutterY
+            }
+          } else {
+            if (rowIndex !== rows.length - 1) {
+              cellProps.marginBottom = gutterY
+            }
+          }
+
+          return cloneElement(column, { cellProps })
         }),
       ],
       []
@@ -101,22 +110,15 @@ class Grid extends Component {
       columns,
       gutterX,
       gutterY,
-      css, // don't allow any outside styling
-      className,
-      style,
       children,
       ...props
     } = this.props
-    const gridMargin = gutterX / 2 - margin
-    const styles = {
-      // width: '100%',
-      // maxWidth,
-      // paddingTop: margin,
-      // paddingRight: -gridMargin,
-      // paddingBottom: margin,
-      // paddingLeft: -gridMargin,
+    const flexProps = { wrap: true, ...props }
+    const css = {
+      width: `calc(100% - ${isNaN(margin) ? `${margin}px` : margin})`,
+      margin,
     }
-    return <Flex wrap css={styles} {...props} children={this.getRows()} />
+    return createStyledElement(Flex, flexProps, this.getRows())(css)
   }
 }
 

@@ -3,38 +3,25 @@ import PropTypes from 'prop-types'
 import Flex from './Flex'
 import createStyledElement from 'create-styled-element'
 
-function Cell({
-  columnSize,
-  marginLeft,
-  marginRight,
-  marginBottom,
-  tag = 'div',
-  size = 'auto',
-  offset,
-  ...props
-}) {
-  const css = {
-    marginLeft,
-    marginRight,
-    marginBottom,
-  }
-  const cellProps = {
+function Cell({ cellProps, tag = 'div', size = 'auto', offset, ...props }) {
+  const { columnSize, offsetSize, ...css } = cellProps
+  const flexProps = {
     ...props,
   }
 
   if (size === 'auto') {
-    cellProps.grow = 0
-    cellProps.basis = 'auto'
+    flexProps.grow = 1
+    flexProps.basis = 'auto'
   } else {
-    cellProps.shrink = 0
-    cellProps.basis = columnSize
+    flexProps.shrink = 0
+    flexProps.basis = columnSize
   }
 
-  // if (offset) {
-  //   css.marginLeft = offsetSize
-  // }
+  if (offsetSize) {
+    css.marginLeft = offsetSize
+  }
 
-  return createStyledElement(Flex, cellProps)(css)
+  return createStyledElement(Flex, flexProps)(css)
 }
 
 Cell.propTypes = {

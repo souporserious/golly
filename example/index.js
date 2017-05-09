@@ -26,32 +26,16 @@ const cellStyles = {
   textAlign: 'center',
 }
 
-const StyledCell = ({
-  size,
-  columnSize,
-  marginLeft,
-  marginRight,
-  marginBottom,
-  ...props
-}) => (
-  <Cell
-    size={size}
-    columnSize={columnSize}
-    marginLeft={marginLeft}
-    marginRight={marginRight}
-    marginBottom={marginBottom}
-    css={cellStyles}
-    children={
-      <Div
-        css={{
-          width: '100%',
-          color: 'rgba(255, 255, 255, 0.95)',
-          backgroundColor: '#8cee40',
-        }}
-        {...props}
-      />
-    }
-  />
+const cellChildStyles = {
+  width: '100%',
+  color: 'rgba(255, 255, 255, 0.95)',
+  backgroundColor: '#8cee40',
+}
+
+const StyledCell = ({ size, cellProps, ...props }) => (
+  <Cell size={size} cellProps={cellProps} justify="center" css={cellStyles}>
+    <Div css={cellChildStyles} {...props} />
+  </Cell>
 )
 
 const makeArr = size =>
@@ -90,6 +74,7 @@ css.global('body', {
   fontFamily: 'Helvetica',
   fontSize: 16,
   backgroundColor: '#f2f5ff',
+  overflowX: 'hidden',
 })
 
 const InputLabel = props => (
@@ -162,7 +147,12 @@ class App extends Component {
           </Cell>
         </Grid>
 
-        <Grid {...this.state}>
+        <Grid
+          {...this.state}
+          // direction="row-reverse"
+          // wrap={false}
+          // wrap="reverse"
+        >
           {makeArr(1)}
           {makeArr(2)}
           {makeArr(4)}
@@ -173,6 +163,7 @@ class App extends Component {
             <StyledCell key={Math.random()} size={size}>{size}</StyledCell>
           ))}
 
+          <StyledCell size={6}>6</StyledCell>
           <StyledCell size={6}>6</StyledCell>
 
           <StyledCell>Auto</StyledCell>
