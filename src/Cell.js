@@ -1,54 +1,49 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
+import Flex from './Flex'
 import createStyledElement from 'create-styled-element'
-import alignTypes from './align-types'
-import justifyTypes from './justify-types'
 
 function Cell({
   columnSize,
-  offsetSize,
+  marginLeft,
   marginRight,
   marginBottom,
-
-  order,
-  size,
-  align,
+  tag = 'div',
+  size = 'auto',
   offset,
-
   ...props
 }) {
   const css = {
-    boxSizing: 'border-box',
-    display: 'flex',
-    order: order,
-    flexDirection: 'column',
-    flex: `0 0 ${columnSize}`,
-    minWidth: columnSize,
+    marginLeft,
+    marginRight,
+    marginBottom,
+  }
+  const cellProps = {
+    ...props,
   }
 
-  if (align !== '') {
-    css.alignSelf = alignTypes[align]
+  if (size === 'auto') {
+    cellProps.grow = 0
+    cellProps.basis = 'auto'
+  } else {
+    cellProps.shrink = 0
+    cellProps.basis = columnSize
   }
 
-  if (marginRight) {
-    css.marginRight = marginRight
-  }
+  // if (offset) {
+  //   css.marginLeft = offsetSize
+  // }
 
-  if (marginBottom) {
-    css.marginBottom = marginBottom
-  }
-
-  if (offset) {
-    css.marginLeft = offsetSize
-  }
-
-  return createStyledElement('div', props)(css)
+  return createStyledElement(Flex, cellProps)(css)
 }
 
 Cell.propTypes = {
+  columnSize: PropTypes.string,
+  offsetSize: PropTypes.string,
+  gutterX: PropTypes.number,
+  gutterY: PropTypes.number,
+  tag: PropTypes.string,
   size: PropTypes.number,
-  order: PropTypes.number,
-  align: PropTypes.string,
   offset: PropTypes.number,
 }
 

@@ -1,80 +1,188 @@
 import React, { Component, createElement } from 'react'
 import ReactDOM, { render } from 'react-dom'
 import { css } from 'glamor'
-import { Grid, Cell } from '../src/index'
-import styledElements from 'create-styled-element/lib/styled-elements'
+import { Flex, Grid, Cell } from '../src/index'
+import { Media, Container } from 'react-matches'
+import createStyledElement from 'create-styled-element'
 
-const { Div } = styledElements
+const { Div } = createStyledElement
+
+const MediaGrid = ({ children, ...props }) => (
+  <Media
+    queries={{
+      sm: { minWidth: 0 },
+      md: { minWidth: 480 },
+      lg: { minWidth: 720 },
+    }}
+  >
+    {activeQueries => <Grid {...props} children={children(activeQueries)} />}
+  </Media>
+)
+
+const cellStyles = {
+  justifyContent: 'center',
+  fontSize: 24,
+  fontWeight: 'bold',
+  textAlign: 'center',
+}
+
+const StyledCell = ({
+  size,
+  columnSize,
+  marginLeft,
+  marginRight,
+  marginBottom,
+  ...props
+}) => (
+  <Cell
+    size={size}
+    columnSize={columnSize}
+    marginLeft={marginLeft}
+    marginRight={marginRight}
+    marginBottom={marginBottom}
+    css={cellStyles}
+    children={
+      <Div
+        css={{
+          width: '100%',
+          color: 'rgba(255, 255, 255, 0.95)',
+          backgroundColor: '#8cee40',
+        }}
+        {...props}
+      />
+    }
+  />
+)
+
+const makeArr = size =>
+  [...new Array(12 / size)].map((_, i) => (
+    <StyledCell key={size + i} size={size} children={`${i + 1}`} />
+  ))
+
+const precise = [
+  11,
+  1,
+  10,
+  2,
+  9,
+  3,
+  8,
+  4,
+  7,
+  5,
+  6,
+  6,
+  5,
+  7,
+  4,
+  8,
+  3,
+  9,
+  2,
+  10,
+  1,
+  11,
+]
 
 css.global('body', {
   padding: 0,
   margin: 0,
+  fontFamily: 'Helvetica',
+  fontSize: 16,
+  backgroundColor: '#f2f5ff',
 })
 
+const InputLabel = props => (
+  <Flex
+    tag="label"
+    direction="column"
+    alignItems="center"
+    justify="center"
+    {...props}
+  />
+)
+
+const StyledH1 = props =>
+  createStyledElement('h1', props)({
+    marginBottom: 16,
+    color: '#304897',
+  })
+
+const StyledInput = props =>
+  createStyledElement('input', props)({
+    width: 32,
+    height: 32,
+    padding: 0,
+    textAlign: 'center',
+  })
+
 class App extends Component {
+  state = {
+    columns: 12,
+    margin: 16,
+    gutterX: 16,
+    gutterY: 16,
+  }
   render() {
+    const { margin, gutterX, gutterY } = this.state
     return (
-      <Grid columns={12} margin={8} gutter={8}>
-        <Cell size={6} css={{ backgroundColor: 'red' }}>
-          Col 6
-        </Cell>
-        <Cell size={7} css={{ backgroundColor: 'orange' }}>
-          Col 7
-        </Cell>
+      <div>
+        <Grid>
+          <Cell size={4} alignItems="center" justify="center">
+            <InputLabel>
+              <StyledH1>Margin</StyledH1>
+              <StyledInput
+                type="number"
+                value={margin}
+                onChange={e => this.setState({ margin: +e.target.value })}
+              />
+            </InputLabel>
+          </Cell>
 
-        <Cell size={4} css={{ backgroundColor: 'red' }}>
-          Col 4
-        </Cell>
-        <Cell size={4} css={{ backgroundColor: 'orange' }}>
-          Col 4
-        </Cell>
-        <Cell size={4} css={{ backgroundColor: 'green' }}>
-          Col 4
-        </Cell>
+          <Cell size={4} alignItems="center" justify="center">
+            <InputLabel>
+              <StyledH1>GutterX</StyledH1>
+              <StyledInput
+                type="number"
+                value={gutterX}
+                onChange={e => this.setState({ gutterX: +e.target.value })}
+              />
+            </InputLabel>
+          </Cell>
 
-        <Cell
-          size={3}
-          css={{
-            backgroundColor: 'red',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
-          Col 3
-        </Cell>
+          <Cell size={4} alignItems="center" justify="center">
+            <InputLabel>
+              <StyledH1>GutterY</StyledH1>
+              <StyledInput
+                type="number"
+                value={gutterY}
+                onChange={e => this.setState({ gutterY: +e.target.value })}
+              />
+            </InputLabel>
+          </Cell>
+        </Grid>
 
-        <Cell size={12} css={{ backgroundColor: 'brown' }}>
-          Col 12
-        </Cell>
+        <Grid {...this.state}>
+          {makeArr(1)}
+          {makeArr(2)}
+          {makeArr(4)}
+          {makeArr(6)}
+          {makeArr(12)}
 
-        <Cell size={12} css={{ backgroundColor: 'orange' }}>
-          Col 12
-        </Cell>
-        <Cell size={9} css={{ backgroundColor: 'green' }}>
-          Col 9
-        </Cell>
+          {precise.map((size, index) => (
+            <StyledCell key={Math.random()} size={size}>{size}</StyledCell>
+          ))}
 
-        <Cell size={12} css={{ backgroundColor: 'blue' }}>
-          Col 12
-        </Cell>
+          <StyledCell size={6}>6</StyledCell>
 
-        <Cell size={3} css={{ backgroundColor: 'brown' }}>
-          Col 3
-        </Cell>
-        <Cell size={6} css={{ backgroundColor: 'brown' }}>
-          Col 6
-        </Cell>
-        <Cell size={2} css={{ backgroundColor: 'aqua' }}>
-          Col 2
-        </Cell>
-
-        <Cell size={4} css={{ backgroundColor: 'lime' }}>
-          Col 4
-        </Cell>
-        <Cell size={4} css={{ backgroundColor: 'lime' }}>
-          Col 4
-        </Cell>
-      </Grid>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+        </Grid>
+      </div>
     )
   }
 }
