@@ -5,7 +5,6 @@ import Flex from './Flex'
 
 class Grid extends Component {
   static propTypes = {
-    tag: PropTypes.string,
     margin: PropTypes.number,
     columns: PropTypes.number,
     gutterX: PropTypes.number,
@@ -13,109 +12,45 @@ class Grid extends Component {
   }
 
   static defaultProps = {
-    tag: 'div',
     margin: 0,
     columns: 12,
     gutterX: 16,
     gutterY: 16,
   }
 
-  getRows() {
-    const { columns, gutterX, gutterY, direction, wrap, children } = this.props
-    const getColumnSize = size => size / columns * 100 + '%'
-    const childrenArray = Children.toArray(children)
-    const childrenCount = Children.count(children)
-    const rows = []
-    let row = []
-    let totalCurrentColumns = 0
+  static childContextTypes = {
+    grid: PropTypes.object,
+  }
 
-    // gather all "rows" in the Grid component
-    childrenArray.forEach((column, columnIndex) => {
-      const { size } = column.props
-
-      // keep track of total columns so we know when to create a row
-      totalCurrentColumns += size || 1
-
-      // determine whether we need to make a new row or just add to one
-      if (totalCurrentColumns < columns) {
-        row.push(column)
-      } else if (totalCurrentColumns > columns) {
-        rows.push(row)
-        row = []
-        row.push(column)
-        totalCurrentColumns = size
-      } else if (totalCurrentColumns === columns) {
-        row.push(column)
-        rows.push(row)
-        row = []
-        totalCurrentColumns = 0
-      }
-
-      // if we've made it to the last column, push the final row
-      if (columnIndex === childrenCount - 1) {
-        rows.push(row)
-      }
-    })
-
-    // reduce each row back down with the proper styles
-    return rows.reduce(
-      (flattenedRows, row, rowIndex) => [
-        ...flattenedRows,
-        ...row.map((column, columnIndex) => {
-          const { size, offset } = column.props
-          const columnSize = getColumnSize(size)
-          const offsetSize = getColumnSize(offset)
-          const gutterCount = row.length - 1
-          const cellProps = {
-            columnSize: `calc(${columnSize} - ${gutterX * gutterCount / row.length}px)`,
-            // columnSize,
-            offsetSize,
-          }
-
-          if (direction === 'row-reverse') {
-            if (columnIndex !== 0) {
-              cellProps.marginRight = gutterX
-            }
-          } else {
-            if (columnIndex !== row.length - 1) {
-              cellProps.marginRight = gutterX
-            }
-          }
-
-          if (wrap === 'reverse') {
-            if (rowIndex !== 0) {
-              cellProps.marginBottom = gutterY
-            }
-          } else {
-            if (rowIndex !== rows.length - 1) {
-              cellProps.marginBottom = gutterY
-            }
-          }
-
-          return cloneElement(column, { cellProps })
-        }),
-      ],
-      []
-    )
+  getChildContext() {
+    return {
+      grid: {
+        columns: this.props.columns,
+        gutterX: this.props.gutterX,
+        gutterY: this.props.gutterY,
+      },
+    }
   }
 
   render() {
     const {
-      tag,
       maxWidth,
       margin,
       columns,
       gutterX,
       gutterY,
-      children,
-      ...props
+      ...gridProps
     } = this.props
-    const flexProps = { wrap: true, ...props }
+    const marginX = margin - gutterX / 2
+    const marginY = margin - gutterY / 2
     const css = {
-      width: `calc(100% - ${isNaN(margin) ? `${margin}px` : margin})`,
-      margin,
+      marginTop: marginY,
+      marginRight: marginX,
+      marginBottom: marginY,
+      marginLeft: marginX,
     }
-    return createStyledElement(Flex, flexProps, this.getRows())(css)
+    gridProps.wrap = true
+    return createStyledElement(Flex, gridProps)(css)
   }
 }
 

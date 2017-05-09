@@ -32,8 +32,8 @@ const cellChildStyles = {
   backgroundColor: '#8cee40',
 }
 
-const StyledCell = ({ size, cellProps, ...props }) => (
-  <Cell size={size} cellProps={cellProps} justify="center" css={cellStyles}>
+const StyledCell = ({ size, ...props }) => (
+  <Cell size={size} justify="center" css={cellStyles}>
     <Div css={cellChildStyles} {...props} />
   </Cell>
 )
@@ -104,7 +104,7 @@ const StyledInput = props =>
 class App extends Component {
   state = {
     columns: 12,
-    margin: 16,
+    margin: 0,
     gutterX: 16,
     gutterY: 16,
   }
@@ -179,7 +179,7 @@ class App extends Component {
           <StyledCell>Auto</StyledCell>
         </Grid>
 
-        <Grid>
+        <Grid margin={0}>
           <StyledCell size={4}>6</StyledCell>
           <StyledCell>Auto</StyledCell>
           <StyledCell>Auto</StyledCell>

@@ -1,37 +1,48 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import Flex from './Flex'
 import createStyledElement from 'create-styled-element'
+import Flex from './Flex'
 
-function Cell({ cellProps, tag = 'div', size = 'auto', offset, ...props }) {
-  const { columnSize, offsetSize, ...css } = cellProps
-  const flexProps = {
-    ...props,
+function Cell(props, context) {
+  const { size, offset, ...cellProps } = props
+  const { grid: { columns, gutterX, gutterY } } = context
+  const getCellSize = size => `100% * ${size}/${columns}`
+  const marginX = gutterX / 2
+  const marginY = gutterY / 2
+  const css = {
+    marginTop: marginY,
+    marginRight: marginX,
+    marginBottom: marginY,
+    marginLeft: marginX,
+  }
+
+  if (offset !== null) {
+    css.marginLeft = `calc(${getCellSize(offset)} + ${gutterX}px)`
   }
 
   if (size === 'auto') {
-    flexProps.grow = 1
-    flexProps.basis = 'auto'
+    cellProps.grow = 1
+    cellProps.basis = 'auto'
   } else {
-    flexProps.shrink = 0
-    flexProps.basis = columnSize
+    cellProps.shrink = 0
+    cellProps.basis = `calc(${getCellSize(size)} - ${gutterX}px)`
   }
 
-  if (offsetSize) {
-    css.marginLeft = offsetSize
-  }
+  return createStyledElement(Flex, cellProps)(css)
+}
 
-  return createStyledElement(Flex, flexProps)(css)
+Cell.contextTypes = {
+  grid: PropTypes.object,
 }
 
 Cell.propTypes = {
-  columnSize: PropTypes.string,
-  offsetSize: PropTypes.string,
-  gutterX: PropTypes.number,
-  gutterY: PropTypes.number,
-  tag: PropTypes.string,
-  size: PropTypes.number,
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   offset: PropTypes.number,
+}
+
+Cell.defaultProps = {
+  size: 'auto',
+  offset: null,
 }
 
 export default Cell
