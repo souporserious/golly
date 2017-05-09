@@ -34,13 +34,10 @@ class Grid extends Component {
       const { size } = column.props
 
       // keep track of total columns so we know when to create a row
-      totalCurrentColumns += size
+      totalCurrentColumns += size || 1
 
       // determine whether we need to make a new row or just add to one
-      if (!size) {
-        row.push(column)
-        totalCurrentColumns = 0
-      } else if (totalCurrentColumns < columns) {
+      if (totalCurrentColumns < columns) {
         row.push(column)
       } else if (totalCurrentColumns > columns) {
         rows.push(row)

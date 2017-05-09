@@ -164,8 +164,30 @@ class App extends Component {
           ))}
 
           <StyledCell size={6}>6</StyledCell>
-          <StyledCell size={6}>6</StyledCell>
 
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+
+          <StyledCell size={4}>6</StyledCell>
+
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+        </Grid>
+
+        <Grid>
+          <StyledCell size={4}>6</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
           <StyledCell>Auto</StyledCell>
           <StyledCell>Auto</StyledCell>
           <StyledCell>Auto</StyledCell>
