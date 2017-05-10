@@ -3,39 +3,38 @@ import PropTypes from 'prop-types'
 import createStyledElement from 'create-styled-element'
 import Flex from './Flex'
 
-function Cell(props, context) {
-  const { size, offset, ...cellProps } = props
-  const { grid: { columns, gutterX, gutterY } } = context
-  const getCellSize = size => 100 * size / columns + '%'
-  const marginX = gutterX / 2
-  const marginY = gutterY / 2
-  const css = {
-    marginTop: marginY,
-    marginRight: marginX,
-    marginBottom: marginY,
-    marginLeft: marginX,
-  }
-
-  if (offset !== null) {
-    css.marginLeft = `calc(${getCellSize(offset)} + ${gutterX}px)`
+function Cell({
+  cellProps,
+  size,
+  offset,
+  order, // pull off order since we take care of it in Grid
+  ...props
+}) {
+  const { columnSize, offsetSize, ...css } = cellProps
+  const flexProps = {
+    ...props,
   }
 
   if (size === 'auto') {
-    cellProps.grow = 1
-    cellProps.basis = 'auto'
+    flexProps.grow = 1
+    flexProps.basis = 'auto'
   } else {
-    cellProps.shrink = 0
-    cellProps.basis = `calc(${getCellSize(size)} - ${gutterX}px)`
+    flexProps.shrink = 0
+    flexProps.basis = columnSize
   }
 
-  return createStyledElement(Flex, cellProps)(css)
-}
+  if (offsetSize) {
+    css.marginLeft = offsetSize
+  }
 
-Cell.contextTypes = {
-  grid: PropTypes.object,
+  return createStyledElement(Flex, flexProps)(css)
 }
 
 Cell.propTypes = {
+  columnSize: PropTypes.string.isRequired,
+  offsetSize: PropTypes.string.isRequired,
+  gutterX: PropTypes.number.isRequired,
+  gutterY: PropTypes.number.isRequired,
   size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   offset: PropTypes.number,
 }
