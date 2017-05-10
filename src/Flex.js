@@ -7,6 +7,7 @@ import justifyTypes from './justify-types'
 
 function Flex({
   tag,
+  innerRef,
   inline,
   order,
   grow,
@@ -26,7 +27,7 @@ function Flex({
   const css = {
     boxSizing: 'border-box',
     display: inline ? 'inline-flex' : 'flex',
-    flex: `${grow} ${shrink} ${basis}`,
+    flex: `${grow === true ? 1 : grow} ${shrink} ${basis}`,
     flexFlow: `${direction} ${flexWrap}`,
     minWidth: basis, // fixes flex bug in IE
   }
@@ -51,11 +52,12 @@ function Flex({
     css.order = order
   }
 
-  return createStyledElement(tag, props)(css)
+  return createStyledElement(tag, { ref: innerRef, ...props })(css)
 }
 
 Flex.defaultProps = {
   tag: 'div',
+  innerRef: () => null,
   inline: false,
   direction: 'row',
   wrap: false,
@@ -71,6 +73,7 @@ Flex.defaultProps = {
 
 Flex.propTypes = {
   tag: PropTypes.string,
+  innerRef: PropTypes.func,
   inline: PropTypes.bool,
   order: PropTypes.number,
   grow: PropTypes.number,

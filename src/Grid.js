@@ -5,6 +5,7 @@ import Flex from './Flex'
 
 class Grid extends Component {
   static propTypes = {
+    mask: PropTypes.bool,
     margin: PropTypes.number,
     columns: PropTypes.number,
     gutterX: PropTypes.number,
@@ -12,6 +13,7 @@ class Grid extends Component {
   }
 
   static defaultProps = {
+    mask: true,
     margin: 0,
     columns: 12,
     gutterX: 16,
@@ -34,6 +36,7 @@ class Grid extends Component {
 
   render() {
     const {
+      mask,
       maxWidth,
       margin,
       columns,
@@ -44,13 +47,24 @@ class Grid extends Component {
     const marginX = margin - gutterX / 2
     const marginY = margin - gutterY / 2
     const css = {
+      width: `calc(100% + ${-marginX * 2}px)`,
       marginTop: marginY,
       marginRight: marginX,
       marginBottom: marginY,
       marginLeft: marginX,
     }
     gridProps.wrap = true
-    return createStyledElement(Flex, gridProps)(css)
+    const FlexGrid = createStyledElement(Flex, gridProps)(css)
+
+    if (mask) {
+      return (
+        <Flex css={{ overflow: 'hidden', width: '100%' }}>
+          {FlexGrid}
+        </Flex>
+      )
+    }
+
+    return FlexGrid
   }
 }
 

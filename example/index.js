@@ -24,22 +24,27 @@ const cellStyles = {
   fontSize: 24,
   fontWeight: 'bold',
   textAlign: 'center',
-}
-
-const cellChildStyles = {
-  width: '100%',
   color: 'rgba(255, 255, 255, 0.95)',
   backgroundColor: '#8cee40',
 }
 
 const StyledCell = ({ size, ...props }) => (
-  <Cell size={size} justify="center" css={cellStyles}>
-    <Div css={cellChildStyles} {...props} />
-  </Cell>
+  <Cell
+    innerRef={c => console.log(c)}
+    size={size}
+    justify="center"
+    css={cellStyles}
+    {...props}
+  />
 )
 
-const makeArr = size =>
-  [...new Array(12 / size)].map((_, i) => (
+const makeAutoArr = size =>
+  [...new Array(size)].map((_, i) => (
+    <StyledCell key={size + i} children={`${i + 1}`} />
+  ))
+
+const makeSizedArr = (size, columns = 12) =>
+  [...new Array(columns / size)].map((_, i) => (
     <StyledCell key={size + i} size={size} children={`${i + 1}`} />
   ))
 
@@ -74,7 +79,6 @@ css.global('body', {
   fontFamily: 'Helvetica',
   fontSize: 16,
   backgroundColor: '#f2f5ff',
-  overflowX: 'hidden',
 })
 
 const InputLabel = props => (
@@ -100,6 +104,13 @@ const StyledInput = props =>
     padding: 0,
     textAlign: 'center',
   })
+
+const cellStylesBlue = {
+  padding: 16,
+  textAlign: 'center',
+  color: '#fff',
+  backgroundColor: '#1c7393',
+}
 
 class App extends Component {
   state = {
@@ -153,11 +164,11 @@ class App extends Component {
           // wrap={false}
           // wrap="reverse"
         >
-          {makeArr(1)}
-          {makeArr(2)}
-          {makeArr(4)}
-          {makeArr(6)}
-          {makeArr(12)}
+          {makeSizedArr(1)}
+          {makeSizedArr(2)}
+          {makeSizedArr(4)}
+          {makeSizedArr(6)}
+          {makeSizedArr(12)}
 
           {precise.map((size, index) => (
             <StyledCell key={Math.random()} size={size}>{size}</StyledCell>
@@ -172,28 +183,51 @@ class App extends Component {
           <StyledCell>Auto</StyledCell>
           <StyledCell>Auto</StyledCell>
 
-          <StyledCell size={4}>6</StyledCell>
+          <StyledCell size={4} grow>6 grow</StyledCell>
+        </Grid>
 
+        <Grid margin={32}>
+          <StyledCell size={4}>6</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
+          <StyledCell>Auto</StyledCell>
           <StyledCell>Auto</StyledCell>
           <StyledCell>Auto</StyledCell>
           <StyledCell>Auto</StyledCell>
         </Grid>
 
-        <Grid margin={0}>
-          <StyledCell size={4}>6</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
-          <StyledCell>Auto</StyledCell>
+        <Grid margin={16}>
+          <Cell size={4} alignItems="center" justify="center">
+            <Grid margin={0}>
+              <Cell size={6} css={cellStylesBlue}>6</Cell>
+              <Cell size={6} css={cellStylesBlue}>6</Cell>
+              <Cell size={3} css={cellStylesBlue}>3</Cell>
+              <Cell size={9} css={cellStylesBlue}>9</Cell>
+            </Grid>
+          </Cell>
+          <Cell size={4} alignItems="center" justify="center">
+            <Grid margin={0}>
+              <Cell size={6} css={cellStylesBlue}>6</Cell>
+              <Cell size={6} css={cellStylesBlue}>6</Cell>
+              <Cell size={3} css={cellStylesBlue}>3</Cell>
+              <Cell size={9} css={cellStylesBlue}>9</Cell>
+            </Grid>
+          </Cell>
+          <Cell size={4} alignItems="center" justify="center">
+            <Grid margin={0}>
+              <Cell size={6} css={cellStylesBlue}>6</Cell>
+              <Cell size={6} css={cellStylesBlue}>6</Cell>
+              <Cell size={3} css={cellStylesBlue}>3</Cell>
+              <Cell size={9} css={cellStylesBlue}>9</Cell>
+            </Grid>
+          </Cell>
         </Grid>
       </div>
     )

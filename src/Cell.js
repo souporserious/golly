@@ -6,7 +6,7 @@ import Flex from './Flex'
 function Cell(props, context) {
   const { size, offset, ...cellProps } = props
   const { grid: { columns, gutterX, gutterY } } = context
-  const getCellSize = size => `100% * ${size}/${columns}`
+  const getCellSize = size => 100 * size / columns + '%'
   const marginX = gutterX / 2
   const marginY = gutterY / 2
   const css = {
