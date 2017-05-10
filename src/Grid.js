@@ -5,7 +5,6 @@ import Flex from './Flex'
 
 class Grid extends Component {
   static propTypes = {
-    tag: PropTypes.string,
     margin: PropTypes.number,
     columns: PropTypes.number,
     gutterX: PropTypes.number,
@@ -13,7 +12,6 @@ class Grid extends Component {
   }
 
   static defaultProps = {
-    tag: 'div',
     margin: 0,
     columns: 12,
     gutterX: 16,
@@ -22,19 +20,28 @@ class Grid extends Component {
 
   getRows() {
     const { columns, gutterX, gutterY, direction, wrap, children } = this.props
-    const getColumnSize = size => size / columns * 100 + '%'
+    const getColumnSize = size => 100 * size / columns + '%'
     const childrenArray = Children.toArray(children)
     const childrenCount = Children.count(children)
     const rows = []
     let row = []
     let totalCurrentColumns = 0
 
+    // sort children by "order" property
+    childrenArray.sort((a, b) => a.props.order - b.props.order)
+
     // gather all "rows" in the Grid component
     childrenArray.forEach((column, columnIndex) => {
       const { size } = column.props
 
       // keep track of total columns so we know when to create a row
-      totalCurrentColumns += size || 1
+      // we treat auto sized cells as a unit of 1 so we can still create rows
+      // this is still kind of wonky and needs some thought
+      if (!size || size === 'auto') {
+        totalCurrentColumns += 1
+      } else {
+        totalCurrentColumns += size
+      }
 
       // determine whether we need to make a new row or just add to one
       if (totalCurrentColumns < columns) {
@@ -52,7 +59,7 @@ class Grid extends Component {
       }
 
       // if we've made it to the last column, push the final row
-      if (columnIndex === childrenCount - 1) {
+      if (row.length && columnIndex === childrenCount - 1) {
         rows.push(row)
       }
     })
@@ -65,10 +72,9 @@ class Grid extends Component {
           const { size, offset } = column.props
           const columnSize = getColumnSize(size)
           const offsetSize = getColumnSize(offset)
-          const gutterCount = row.length - 1
+          const gutterSize = gutterX - gutterX * (size / columns)
           const cellProps = {
-            columnSize: `calc(${columnSize} - ${gutterX * gutterCount / row.length}px)`,
-            // columnSize,
+            columnSize: `calc(${columnSize} - ${gutterSize}px)`,
             offsetSize,
           }
 
@@ -101,7 +107,6 @@ class Grid extends Component {
 
   render() {
     const {
-      tag,
       maxWidth,
       margin,
       columns,
@@ -112,7 +117,7 @@ class Grid extends Component {
     } = this.props
     const flexProps = { wrap: true, ...props }
     const css = {
-      width: `calc(100% - ${isNaN(margin) ? `${margin}px` : margin})`,
+      width: `calc(100% - ${isNaN(margin) ? margin : `${margin}px`})`,
       margin,
     }
     return createStyledElement(Flex, flexProps, this.getRows())(css)
