@@ -23,7 +23,7 @@ function Cell({
     flexProps.basis = columnSize
   }
 
-  if (offsetSize) {
+  if (offset !== null) {
     css.marginLeft = offsetSize
   }
 

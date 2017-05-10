@@ -29,7 +29,6 @@ const cellStyles = {
 class App extends Component {
   state = {
     columns: 12,
-    margin: 16,
     gutterX: 16,
     gutterY: 16,
   }

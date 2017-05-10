@@ -1,18 +1,15 @@
 import React, { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import createStyledElement from 'create-styled-element'
 import Flex from './Flex'
 
 class Grid extends Component {
   static propTypes = {
-    margin: PropTypes.number,
     columns: PropTypes.number,
     gutterX: PropTypes.number,
     gutterY: PropTypes.number,
   }
 
   static defaultProps = {
-    margin: 0,
     columns: 12,
     gutterX: 16,
     gutterY: 16,
@@ -70,12 +67,10 @@ class Grid extends Component {
         ...flattenedRows,
         ...row.map((column, columnIndex) => {
           const { size, offset } = column.props
-          const columnSize = getColumnSize(size)
-          const offsetSize = getColumnSize(offset)
-          const gutterSize = gutterX - gutterX * (size / columns)
+          const gutterOffset = gutterX - gutterX * (size / columns)
           const cellProps = {
-            columnSize: `calc(${columnSize} - ${gutterSize}px)`,
-            offsetSize,
+            columnSize: `calc(${getColumnSize(size)} - ${gutterOffset}px)`,
+            offsetSize: `calc(${getColumnSize(offset)} - ${gutterOffset}px)`,
           }
 
           if (direction === 'row-reverse') {
@@ -106,21 +101,8 @@ class Grid extends Component {
   }
 
   render() {
-    const {
-      maxWidth,
-      margin,
-      columns,
-      gutterX,
-      gutterY,
-      children,
-      ...props
-    } = this.props
-    const flexProps = { wrap: true, ...props }
-    const css = {
-      width: `calc(100% - ${isNaN(margin) ? margin : `${margin}px`})`,
-      margin,
-    }
-    return createStyledElement(Flex, flexProps, this.getRows())(css)
+    const { columns, gutterX, gutterY, children, ...props } = this.props
+    return <Flex wrap {...props} children={this.getRows()} />
   }
 }
 
