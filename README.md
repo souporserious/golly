@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/souporserious/golly.svg)](https://david-dm.org/souporserious/golly)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-Powerful flexbox grid system built on top of [glamor](https://github.com/threepointone/glamor).
+Powerful flexbox grid system built on top of [glamor](https://github.com/threepointone/glamor). If you want even more super powers, pair this library with [react-matches](https://github.com/souporserious/react-matches) to change yer columns when the screen resizes 🔥
 
 near-future goals:
 
