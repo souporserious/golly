@@ -1,6 +1,6 @@
 {
   "name": "golly",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Powerful flexbox grid system built on top of glamor.",
   "main": "lib/index.js",
   "files": [
@@ -11,9 +11,10 @@
   "author": "Travis Arnold",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --out-dir lib",
     "dev": "webpack-dev-server --hot --progress --host 0.0.0.0",
-    "prepublish": "npm run build"
+    "build": "babel src --out-dir lib",
+    "dist": "rollup --config rollup.config.js",
+    "prepublish": "npm run build && npm run dist"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -33,10 +34,19 @@
     "react-dom": "^15.5.4",
     "react-matches": "^0.1.0",
     "react-popper": "^0.6.0",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-json": "^2.1.1",
+    "rollup-plugin-livereload": "^0.4.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-serve": "^0.3.0",
+    "rollup-watch": "^3.2.2",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "create-styled-element": "^0.2.0"
+    "create-styled-element": "^0.2.0",
+    "prop-types": "^15.5.9"
   }
 }
