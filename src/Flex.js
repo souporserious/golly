@@ -26,7 +26,10 @@ function Flex({
     : wrap === true ? 'wrap' : 'nowrap'
   const css = {
     boxSizing: 'border-box',
-    display: inline ? 'inline-flex' : 'flex',
+    display: [
+      inline ? 'inline-flex' : 'flex',
+      inline ? 'inline-block' : 'block',
+    ],
     flex: `${grow === true ? 1 : grow} ${shrink} ${basis}`,
     flexFlow: `${direction} ${flexWrap}`,
   }

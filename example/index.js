@@ -23,22 +23,16 @@ const gridStyles = { backgroundColor: '#bbf58e' }
 const cellStyles = {
   padding: 12,
   color: 'rgba(255, 255, 255, 0.9)',
-  backgroundColor: '#8cee40',
+  backgroundColor: '#89d350',
 }
 
 class App extends Component {
-  state = {
-    columns: 12,
-    gutterX: 16,
-    gutterY: 16,
-  }
   render() {
-    const { margin, gutterX, gutterY } = this.state
     return (
       <div>
         <div>
           <Heading>Golly</Heading>
-          <p>a reasonable way to lay elements out in React.</p>
+          <p>a reasonable way to layout elements in React.</p>
         </div>
 
         <Subhead>One Row</Subhead>
@@ -51,8 +45,12 @@ class App extends Component {
           </Cell>
         </Grid>
 
-        <Subhead>Three Rows</Subhead>
-        <Grid css={gridStyles}>
+        <Subhead>Three Columns</Subhead>
+        <Grid
+          direction="column"
+          gutter={8}
+          css={{ ...gridStyles, height: 200 }}
+        >
           <Cell size={6} css={cellStyles}>
             6
           </Cell>
@@ -67,19 +65,19 @@ class App extends Component {
             9
           </Cell>
 
-          <Cell size={3} css={cellStyles}>
-            3
+          <Cell size={4} css={cellStyles}>
+            4
           </Cell>
-          <Cell size={6} css={cellStyles}>
-            6
+          <Cell size={4} css={cellStyles}>
+            4
           </Cell>
-          <Cell size={3} css={cellStyles}>
-            3
+          <Cell size={4} css={cellStyles}>
+            4
           </Cell>
         </Grid>
 
         <Subhead>Grid</Subhead>
-        <Grid columns={3} gutterX={2} gutterY={2} css={gridStyles}>
+        <Grid size={3} gutter={2} css={gridStyles}>
           <Cell size={1} css={cellStyles}>
             3
           </Cell>
@@ -101,7 +99,12 @@ class App extends Component {
         </Grid>
 
         <Subhead>Reverse</Subhead>
-        <Grid wrap="reverse" direction="row-reverse" css={gridStyles}>
+        <Grid
+          wrap="reverse"
+          direction="row-reverse"
+          gutter={{ x: 8, y: 16 }}
+          css={gridStyles}
+        >
           <Cell size={6} css={cellStyles}>
             6
           </Cell>
@@ -134,13 +137,13 @@ class App extends Component {
           <Cell size={6} css={cellStyles}>
             6
           </Cell>
-          <Cell css={cellStyles}>
+          <Cell size="auto" css={cellStyles}>
             Auto
           </Cell>
           <Cell size={3} css={cellStyles}>
             3
           </Cell>
-          <Cell css={cellStyles}>
+          <Cell size="auto" css={cellStyles}>
             Auto
           </Cell>
         </Grid>
@@ -152,7 +155,7 @@ class App extends Component {
             because of the grid implementation we actually reorder elements on the React side
           </small>
         </Subhead>
-        <Grid css={gridStyles}>
+        <Grid gutter={16} css={{ ...gridStyles, padding: 16 }}>
           <Cell size={6} css={cellStyles}>
             6
           </Cell>
@@ -176,5 +179,4 @@ class App extends Component {
     )
   }
 }
-
 render(<App />, document.getElementById('app'))

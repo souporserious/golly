@@ -27,7 +27,7 @@ near-future goals:
 import { Flex, Grid, Cell } from 'golly'
 
 const GridComponent = () => (
-  <Grid columns={12} gutterX={32} gutterY={16}>
+  <Grid size={12} gutter={{ x: 32, y: 16 }}>
     <Cell size={6} alignItems="center" justify="center">
       <Flex>
         Flex all the way down 🐢
@@ -82,7 +82,7 @@ Sets CSS `flexDirection` property
 
 Sets CSS `flexWrap` property
 
-#### `justify`: PropTypes.oneOf(['center','end','space-around','space-between','start'])
+#### `justifyContent`: PropTypes.oneOf(['center','end','space-around','space-between','start'])
 
 Sets CSS `justifyContent` property
 
@@ -102,17 +102,13 @@ Sets CSS `alignContent` property
 
 Dictates the number of columns and the spacing between those columns. Accepts any props that the `Flex` component accepts.
 
-### `columns`: PropTypes.number
+### `size`: PropTypes.number
 
-The amount of columns in the grid.
+The size of a track. This can either be a row or column depending on what the grid's `direction` prop is set to.
 
-### `gutterX`: PropTypes.number
+### `gutter`: gutter: PropTypes.oneOfType([PropTypes.number, PropTypes.shape({x:PropTypes.number, y:PropTypes.number})])
 
-Horizontal spacing between columns.
-
-### `gutterY`: PropTypes.number
-
-Vertical spacing between columns.
+Horizontal and vertical spacing between cells, set each respective axis by passing an object of `{ x, y }`.
 
 ## `Cell` component
 
@@ -120,11 +116,15 @@ Use to lay content along the grid. Accepts any props that the `Flex` component a
 
 ### `size`: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 
-The amount of columns a cell will span. Defaults to `auto`.
+The amount of space on the track a cell will occupy. Defaults to `1`.
 
-### `offset`: PropTypes.number
+### `pull`: PropTypes.number
 
-Offset the cell by any number of columns.
+Pull the cell by any number of track sizes.
+
+### `push`: PropTypes.number
+
+Push the cell by any number of track sizes.
 
 ### `order`: PropTypes.number
 

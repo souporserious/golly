@@ -6,12 +6,15 @@ import Flex from './Flex'
 function Cell({
   cellProps,
   size,
-  offset,
-  order, // pull off order since we take care of it in Grid
+  pull,
+  push,
+  order, // don't pass order through since we take care of it in the Grid component
   ...props
 }) {
-  const { columnSize, offsetSize, ...css } = cellProps
+  const { cellSize, pullSize, pushSize, ...css } = cellProps
   const flexProps = {
+    inline: true,
+    direction: 'column',
     ...props,
   }
 
@@ -20,28 +23,30 @@ function Cell({
     flexProps.basis = 'auto'
   } else {
     flexProps.shrink = 0
-    flexProps.basis = columnSize
+    flexProps.basis = cellSize
   }
 
-  if (offset !== null) {
-    css.marginLeft = offsetSize
+  if (pull) {
+    css.marginRight = pullSize
+  }
+
+  if (push) {
+    css.marginLeft = pushSize
   }
 
   return createStyledElement(Flex, flexProps)(css)
 }
 
 Cell.propTypes = {
-  columnSize: PropTypes.string.isRequired,
-  offsetSize: PropTypes.string.isRequired,
-  gutterX: PropTypes.number.isRequired,
-  gutterY: PropTypes.number.isRequired,
   size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  offset: PropTypes.number,
+  pull: PropTypes.number,
+  push: PropTypes.number,
 }
 
 Cell.defaultProps = {
-  size: 'auto',
-  offset: null,
+  size: 1,
+  pull: null,
+  push: null,
 }
 
 export default Cell
