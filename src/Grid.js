@@ -104,6 +104,7 @@ class Grid extends Component {
           pushSize: this.getGridSize(push),
         }
 
+        // fixes IE10 bug and allows a graceful fallback
         if (cellProps.cellSize !== null) {
           if (this.isRow) {
             cellProps.width = '100%'
@@ -114,6 +115,7 @@ class Grid extends Component {
           }
         }
 
+        // determine how each cells gutter will be set
         if (
           (['row-reverse', 'column-reverse'].indexOf(direction) > -1 &&
             cellIndex !== 0) ||
