@@ -14,7 +14,7 @@ function Flex({
   shrink,
   direction,
   wrap,
-  justify,
+  justifyContent,
   align,
   alignItems,
   alignContent,
@@ -29,22 +29,28 @@ function Flex({
     display: inline ? 'inline-flex' : 'flex',
     flex: `${grow === true ? 1 : grow} ${shrink} ${basis}`,
     flexFlow: `${direction} ${flexWrap}`,
-    minWidth: basis, // fixes flex bug in IE
   }
 
-  if (justify !== '') {
-    css.justifyContent = justifyTypes[justify]
+  if (justifyContent) {
+    if (justifyContent === 'space-evenly') {
+      css.justifyContent = 'space-between'
+      css['&:before, &:after'] = {
+        content: '""',
+      }
+    } else {
+      css.justifyContent = justifyTypes[justifyContent]
+    }
   }
 
-  if (align !== '') {
+  if (align) {
     css.alignSelf = alignTypes[align]
   }
 
-  if (alignItems !== '') {
+  if (alignItems) {
     css.alignItems = alignTypes[alignItems]
   }
 
-  if (alignContent !== '') {
+  if (alignContent) {
     css.alignItems = contentTypes[alignContent]
   }
 
@@ -61,14 +67,14 @@ Flex.defaultProps = {
   inline: false,
   direction: 'row',
   wrap: false,
-  justify: 'start',
-  alignItems: 'start',
-  alignContent: 'start',
-  order: 0,
+  justifyContent: null,
+  alignItems: null,
+  alignContent: null,
+  order: null,
   grow: 0,
   shrink: 1,
   basis: 'auto',
-  align: 'start',
+  align: null,
 }
 
 Flex.propTypes = {
@@ -86,11 +92,12 @@ Flex.propTypes = {
     'column-reverse',
   ]),
   wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  justify: PropTypes.oneOf([
+  justifyContent: PropTypes.oneOf([
     'center',
     'end',
     'space-around',
     'space-between',
+    'space-evenly',
     'start',
   ]),
   align: PropTypes.oneOf(['baseline', 'stretch', 'center', 'end', 'start']),
