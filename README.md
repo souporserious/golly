@@ -28,12 +28,12 @@ import { Flex, Grid, Cell } from 'golly'
 
 const GridComponent = () => (
   <Grid size={12} gutter={{ x: 32, y: 16 }}>
-    <Cell size={6} alignItems="center" justify="center">
+    <Cell size={6} alignItems="center" justifyContent="center">
       <Flex>
         Flex all the way down 🐢
       </Flex>
     </Cell>
-    <Cell size={6} alignItems="center" justify="center">
+    <Cell size={6} alignItems="center" justifyContent="center">
       <Flex>
         Always rely on your flex hammer 🔨
       </Flex>
@@ -82,9 +82,9 @@ Sets CSS `flexDirection` property
 
 Sets CSS `flexWrap` property
 
-#### `justifyContent`: PropTypes.oneOf(['center','end','space-around','space-between','start'])
+#### `justifyContent`: PropTypes.oneOf(['center','end','space-around','space-between','space-evenly','start'])
 
-Sets CSS `justifyContent` property
+Sets CSS `justifyContent` property, `space-evenly` is polyfilled by adding [before and after pseudo elements](http://stackoverflow.com/a/25073011/1461204).
 
 #### `align`: PropTypes.oneOf(['baseline', 'stretch', 'center', 'end', 'start'])
 
