@@ -7,7 +7,6 @@ import justifyTypes from './justify-types'
 
 function Flex({
   tag,
-  innerRef,
   inline,
   order,
   grow,
@@ -61,7 +60,7 @@ function Flex({
     css.order = order
   }
 
-  return createStyledElement(tag, { ref: innerRef, ...props })(css)
+  return createStyledElement(tag, props)(css)
 }
 
 Flex.defaultProps = {

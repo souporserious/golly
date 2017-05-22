@@ -32,11 +32,13 @@ class App extends Component {
       <div>
         <div>
           <Heading>Golly</Heading>
-          <p>a reasonable way to layout elements in React.</p>
+          <Flex innerRef={c => console.log({ flexRef: c })} tag="p">
+            a reasonable way to layout elements in React.
+          </Flex>
         </div>
 
         <Subhead>One Row</Subhead>
-        <Grid css={gridStyles}>
+        <Grid innerRef={c => console.log({ gridRef: c })} css={gridStyles}>
           <Cell size={10} css={cellStyles}>
             10
           </Cell>

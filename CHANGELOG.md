@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 0.3.1
+
+Upgraded `create-styled-element` to `0.4.0`
+
 ### 0.3.0
 
 Back to just one `gutter` prop that now accepts an object to set `x` and `y` if needed

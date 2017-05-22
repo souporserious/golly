@@ -1264,12 +1264,13 @@ create-hmac@^1.1.0, create-hmac@^1.1.2:
     create-hash "^1.1.0"
     inherits "^2.0.1"
 
-create-styled-element@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/create-styled-element/-/create-styled-element-0.2.0.tgz#3718488f4e6a350c03ab7785554dfe61faef387c"
+create-styled-element@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/create-styled-element/-/create-styled-element-0.4.0.tgz#ab02798e4a677b06b283d495a7a7c142a40d3c32"
   dependencies:
-    glamor next
+    glamor "3.0.0-1"
     html-tag-names "^1.1.1"
+    object-assign "^4.1.1"
     svg-tag-names "^1.1.0"
 
 cryptiles@2.x.x:
@@ -1716,7 +1717,7 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-glamor@next:
+glamor@3.0.0-1:
   version "3.0.0-1"
   resolved "https://registry.yarnpkg.com/glamor/-/glamor-3.0.0-1.tgz#60f489e96d96c12620803d3677ac26413cb76a95"
   dependencies:
@@ -2444,7 +2445,7 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@latest:
+object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1, object-assign@latest:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
@@ -2672,13 +2673,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.7, prop-types@~15.5.7:
-  version "15.5.8"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
-  dependencies:
-    fbjs "^0.8.9"
-
-prop-types@^15.5.9:
+prop-types@^15.5.7, prop-types@^15.5.9, prop-types@~15.5.7:
   version "15.5.9"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.9.tgz#d478eef0e761396942f70c78e772f76e8be747c9"
   dependencies:

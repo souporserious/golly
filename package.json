@@ -1,6 +1,6 @@
 {
   "name": "golly",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Powerful flexbox grid system built on top of glamor.",
   "main": "lib/index.js",
   "files": [
@@ -46,7 +46,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "create-styled-element": "^0.2.0",
+    "create-styled-element": "^0.4.0",
     "prop-types": "^15.5.9"
   }
 }
